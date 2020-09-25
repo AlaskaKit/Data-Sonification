@@ -17,6 +17,12 @@ class ExcelParser:
 					self.values[y][x] = None
 				else:
 					self.values[y][x] = self.inputWorksheet.cell_value(y, x)
-				
+	
+	def channels_num(self):
+		return self.inputWorksheet.ncols
+	
+	def points_num(self):
+		return self.inputWorksheet.nrows
+		
 	def __str__(self):
 		return self.values

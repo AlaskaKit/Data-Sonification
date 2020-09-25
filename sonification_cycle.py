@@ -1,4 +1,5 @@
 from excel_parse import ExcelParser
+from fq_converter import FqConverter
 
 
 
@@ -6,5 +7,6 @@ from excel_parse import ExcelParser
 
 
 if __name__ == '__main__':
-	a = ExcelParser('Sample4.xlsx')
+	parsed_sample = ExcelParser('Sample4.xlsx')
+	fqs = FqConverter(parsed_sample.parse(), parsed_sample.channels_num(), parsed_sample.points_num())
 	
