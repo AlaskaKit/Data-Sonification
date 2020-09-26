@@ -25,8 +25,8 @@ class FqConverter:
 					self.smallest = num_container[y][x]
 				elif num_container[y][x] is None:
 					continue
-				elif num_container[y][x] < self.largest:
-					self.largest = num_container[y][x]
+				elif num_container[y][x] < self.smallest:
+					self.smallest = num_container[y][x]
 				else:
 					continue
 		
@@ -37,9 +37,10 @@ class FqConverter:
 			return
 		else:
 			ratio = (point - self.smallest) / self.gap
-			fq = 220 * 2 ** ratio
+			fq = 220 * 2 ** (2* ratio)
 		return fq
 		
 	def get_fqs(self):
-		self.fqs = 0
+		vect_converter = np.vectorize(self.__convert)
+		self.fqs = vect_converter(self.source)
 		return self.fqs
