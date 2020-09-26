@@ -3,6 +3,9 @@ import numpy as np
 
 class FqConverter:
 	def __init__(self, num_container, num_channels, num_points):
+		
+		# TODO: checks, maybe remake vectorize into cycle
+		
 		self.largest = None
 		self.smallest = None
 		self.source = num_container
