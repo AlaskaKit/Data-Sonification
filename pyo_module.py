@@ -16,16 +16,18 @@ class PyoProcessing:
 		self.points = num_points
 		self.segment = duration / num_points
 		
-		self.source = np.transpose(array)
-		self.source.flatten()
-		for point in range(self.points):
-			if self.source[point] is np.nan:
+		self.raw_source = np.transpose(array)
+		self.source = self.raw_source.flatten()
+		for point in range(len(self.source)):
+			if np.isnan(self.source[point]):
 				self.source[point] = 0
 			else:
 				continue
-		self.array1 = self.source[0:(self.points + 1)]
-		self.array2 = self.source[(self.points + 1):(2 * self.points + 1)]
-		self.array3 = self.source[-self.points]
+		self.array1 = tuple(float(i) for i in self.source[0:(self.points + 1)])
+		self.array2 = tuple(float(i) for i in self.source[(self.points + 1):(2 * self.points + 1)])
+		self.array3 = tuple(float(i) for i in self.source[(2 * self.points + 1):-1])
+		# self.array2 = self.source[(self.points + 1):(2 * self.points + 1)]
+		# self.array3 = self.source[-self.points]
 		
 	def process(self):
 		s = Server(audio='offline').boot()
