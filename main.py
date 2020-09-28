@@ -9,6 +9,7 @@ app = Sanic(__name__)
 
 app.static('/static', './static')
 
+
 def render_template(html_name, **args):
 	with open(os.path.join(os.path.dirname(__file__), 'templates', html_name), 'r') as f:
 		html_text = f.read()
