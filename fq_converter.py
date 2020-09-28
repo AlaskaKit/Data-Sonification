@@ -40,7 +40,7 @@ class FqConverter:
 			return
 		else:
 			ratio = (point - self.smallest) / self.gap
-			fq = 220 * 2 ** (2* ratio)
+			fq = 220 * 2 ** (2 * ratio)
 		return fq
 		
 	def get_fqs(self):

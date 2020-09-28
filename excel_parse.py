@@ -6,7 +6,7 @@ class ExcelParser:
 	def __init__(self, xlsfile):
 		self.inputWorkbook = xlrd.open_workbook(xlsfile)
 		self.inputWorksheet = self.inputWorkbook.sheet_by_index(0)
-		self.values = np.full((self.inputWorksheet.nrows, self.inputWorksheet.ncols), None)
+		self.values = np.full((self.inputWorksheet.nrows, 3), None)
 	
 	# TODO: add checks
 	
