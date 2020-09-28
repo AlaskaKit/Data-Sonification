@@ -5,9 +5,12 @@ import os
 
 class PyoProcessing:
 	
-	def __init__(self, num_channels, num_points, array, duration, name_sample):
-	
-		self.duration = duration
+	def __init__(self, array, num_channels, num_points, duration, name_sample):
+		
+		if duration < 10:
+			self.duration = 10
+		else:
+			self.duration = duration
 		self.name_sample = name_sample
 		self.channels = num_channels
 		self.points = num_points

@@ -1,17 +1,21 @@
 from excel_parse import ExcelParser
 from fq_converter import FqConverter
+from pyo_module import PyoProcessing
 
 
-
-
-
-
-
-if __name__ == '__main__':
-	parsed_sample = ExcelParser('Sample4.xlsx')
-	# print(parsed_sample.parse())
-	converter = FqConverter(parsed_sample.parse(), parsed_sample.channels_num(), parsed_sample.points_num())
-	a = converter.get_fqs()
+class SonificationCycle:
 	
-	
-	
+	def __init__(self, filename, duration=10):
+		self.filename = filename
+		self.duration = duration
+		
+		self.parser = ExcelParser(filename)
+		self.channels = self.parser.channels_num()
+		self.points = self.parser.points_num()
+		self.source = self.parser.parse()
+		
+		self.converter = FqConverter(self.source, self.channels, self.points)
+		self.frequencies = self.converter.get_fqs()
+		
+		self.pyo = PyoProcessing(self.frequencies, self.channels, self.points, self.duration, self.filename)
+		self.pyo.process()
