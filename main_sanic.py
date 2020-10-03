@@ -41,14 +41,14 @@ class SimpleView(HTTPMethodView):
 			'type': uploaded_file.type
 		}
 		# file_path = f"{config['xls_files']}" + "/" + request.files["xlsfile"][0].name
-		file_path = os.path.join("./xls_files", f"{request.files['xlsfile'][0].name}")
+		file_path = os.path.join("app/xls_files", f"{request.files['xlsfile'][0].name}")
 		with open(file_path, 'wb') as f:
 			f.write(file_parameters['body'])
 		f.close()
 		filename = file_path.split("\\")[-1]
 		
 		process = SonificationCycle(filename, float(duration))
-		wav_path = os.path.join("./wav_files", f"{filename}.wav")
+		wav_path = os.path.join("app/wav_files", f"{filename}.wav")
 		
 		return file_stream(wav_path)
 

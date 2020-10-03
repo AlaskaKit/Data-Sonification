@@ -32,7 +32,7 @@ class PyoProcessing:
 		s = Server(audio='offline').boot()
 		
 		# Path of the recorded sound file.
-		path = os.path.join("./wav_files", f"{self.name_sample}.wav")
+		path = os.path.join("app/wav_files", f"{self.name_sample}.wav")
 		
 		# Setting the record options
 		s.recordOptions(dur=self.duration, filename=path, fileformat=0, sampletype=1)
