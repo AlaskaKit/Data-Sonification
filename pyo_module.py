@@ -1,4 +1,5 @@
 from pyo import *
+from config import *
 import numpy as np
 import os
 
@@ -27,12 +28,11 @@ class PyoProcessing:
 		self.array2 = tuple(float(i) for i in self.source[self.points:(2 * self.points)])
 		self.array3 = tuple(float(i) for i in self.source[(2 * self.points):])
 		
-		
 	def process(self):
 		s = Server(audio='offline').boot()
 		
 		# Path of the recorded sound file.
-		path = os.path.join("./wav_files", f"{self.name_sample}.wav")
+		path = os.path.join(DevelopmentConfig.WAV_FILES, f"{self.name_sample}.wav")
 		
 		# Setting the record options
 		s.recordOptions(dur=self.duration, filename=path, fileformat=0, sampletype=1)
