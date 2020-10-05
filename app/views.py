@@ -45,7 +45,7 @@ class BasicView(MethodView):
 				# filename = xlspath.split("\\")[-1]
 				process = SonificationCycle(xlspath, duration)
 				wav_path = os.path.join(app.config["WAV_FILES"], f"{name}.wav")
-				return redirect(f"get_wav/{wav_path}")
+				return redirect(f"get_wav/{name}.wav")
 			else:
 				raise NotImplementedError
 		else:
