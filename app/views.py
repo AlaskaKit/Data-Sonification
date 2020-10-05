@@ -50,21 +50,19 @@ class BasicView(MethodView):
 				raise NotImplementedError
 		else:
 			raise NotImplementedError
-
-
-app.add_url_rule('/', view_func=BasicView.as_view('BasicView'))
-
-
-@app.route("/get_wav/<path:path>")
-def get_wav(path):
-	
-	try:
-		return send_from_directory(
-			app.config["WAV_FILES"], filename=path, as_attachment=True
-		)
-	except FileNotFoundError:
-		abort(404)
 	
 		
+class ResultView(MethodView):
+	def get(self, path):
+		
+		try:
+			return send_from_directory(
+				app.config["WAV_FILES"], filename=path, as_attachment=True
+			)
+			
+		except FileNotFoundError:
+			abort(404)
 
 
+app.add_url_rule('/', view_func=BasicView.as_view('BasicView'), methods=['GET', 'POST', ])
+app.add_url_rule('/get_wav/<path:path>', view_func=ResultView.as_view('ResultView'), methods=['GET', ])
