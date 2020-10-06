@@ -37,11 +37,11 @@ class FqConverter:
 		
 	def __convert(self, point):
 		if point is None:
-			return
+			return 0
 		else:
 			ratio = (point - self.smallest) / self.gap
 			fq = 220 * 2 ** (2 * ratio)
-		return fq
+			return fq
 		
 	def get_fqs(self):
 		vect_converter = np.vectorize(self.__convert)

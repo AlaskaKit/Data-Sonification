@@ -19,11 +19,7 @@ class PyoProcessing:
 		
 		self.raw_source = np.transpose(array)
 		self.source = self.raw_source.flatten()
-		for point in range(len(self.source)):
-			if np.isnan(self.source[point]):
-				self.source[point] = 0
-			else:
-				continue
+		
 		self.array1 = tuple(float(i) for i in self.source[0:self.points])
 		self.array2 = tuple(float(i) for i in self.source[self.points:(2 * self.points)])
 		self.array3 = tuple(float(i) for i in self.source[(2 * self.points):])

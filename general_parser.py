@@ -3,8 +3,6 @@ import xlrd
 
 
 
-
-
 class ExcelParser:
 	def __init__(self, xlsfile):
 		self.inputWorkbook = xlrd.open_workbook(xlsfile)
