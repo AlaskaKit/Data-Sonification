@@ -1,35 +1,36 @@
 import numpy as np
-
+from prepack import Prepack
 
 class FqConverter:
-	def __init__(self, num_container, num_channels, num_points):
+	def __init__(self, prepack=Prepack):
 		
-		# TODO: checks, maybe remake vectorize into cycle
+		if not isinstance(prepack, Prepack):
+			raise TypeError("Critical error: prepack instance invalid. Contact the developer.")
 		
 		self.largest = None
 		self.smallest = None
-		self.source = num_container
-		self.fqs = np.full((num_points, num_channels), 0, dtype=float)
+		self.source = prepack.source
+		self.fqs = np.full((prepack.points, prepack.channels), 0, dtype=float)
 		
-		for x in range(num_channels):
-			for y in range(num_points):
+		for x in range(prepack.channels):
+			for y in range(prepack.points):
 				if self.largest is None:
-					self.largest = num_container[y][x]
-				elif num_container[y][x] is None:
+					self.largest = prepack.source[y][x]
+				elif prepack.source[y][x] is None:
 					continue
-				elif num_container[y][x] > self.largest:
-					self.largest = num_container[y][x]
+				elif prepack.source[y][x] > self.largest:
+					self.largest = prepack.source[y][x]
 				else:
 					continue
 		
-		for x in range(num_channels):
-			for y in range(num_points):
+		for x in range(prepack.channels):
+			for y in range(prepack.points):
 				if self.smallest is None:
-					self.smallest = num_container[y][x]
-				elif num_container[y][x] is None:
+					self.smallest = prepack.source[y][x]
+				elif prepack.source[y][x] is None:
 					continue
-				elif num_container[y][x] < self.smallest:
-					self.smallest = num_container[y][x]
+				elif prepack.source[y][x] < self.smallest:
+					self.smallest = prepack.source[y][x]
 				else:
 					continue
 		

@@ -1,37 +1,40 @@
 from pyo import *
 from config import *
+from prepack import Prepack
 import numpy as np
 import os
 
 
 class PyoProcessing:
 	
-	def __init__(self, array, num_channels, num_points, duration, name_sample):
+	def __init__(self, prepack = Prepack):
 		
-		if duration < 10:
-			self.duration = 10
-		else:
-			self.duration = duration
-		self.name_sample = name_sample
-		self.channels = num_channels
-		self.points = num_points
-		self.segment = duration / num_points
+		if not isinstance(prepack, Prepack):
+			raise TypeError("Critical error: prepack instance invalid. Contact the developer.")
 		
-		self.raw_source = np.transpose(array)
+		self.duration = prepack.duration
+		self.name_sample = prepack.filename
+		self.channels = prepack.channels
+		self.points = prepack.points
+		self.segment = prepack.duration / prepack.points
+		
+		self.raw_source = np.transpose(prepack.source)
 		self.source = self.raw_source.flatten()
 		
 		self.array1 = tuple(float(i) for i in self.source[0:self.points])
 		self.array2 = tuple(float(i) for i in self.source[self.points:(2 * self.points)])
 		self.array3 = tuple(float(i) for i in self.source[(2 * self.points):])
 		
+		self.path = ""
+		
 	def process(self):
 		s = Server(audio='offline').boot()
 		
 		# Path of the recorded sound file.
-		path = os.path.join(DevelopmentConfig.WAV_FILES, f"{self.name_sample}.wav")
+		self.path = os.path.join(DevelopmentConfig.WAV_FILES, f"{self.name_sample}.wav")
 		
 		# Setting the record options
-		s.recordOptions(dur=self.duration, filename=path, fileformat=0, sampletype=1)
+		s.recordOptions(dur=self.duration, filename=self.path, fileformat=0, sampletype=1)
 		
 		if self.channels == 1:
 			frequencies1 = iter(self.array1)
@@ -114,3 +117,5 @@ class PyoProcessing:
 		s.recstart()
 		s.start()
 		s.shutdown()
+		
+		return self.path
