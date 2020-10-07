@@ -1,6 +1,6 @@
 from app import app
-from flask.views import MethodView, View
-from flask import render_template, request, redirect, send_from_directory, abort
+from flask.views import MethodView
+from flask import render_template, request, redirect, send_from_directory, abort, flash
 from werkzeug.utils import secure_filename
 import os
 
@@ -27,29 +27,47 @@ class BasicView(MethodView):
 	def post(self):
 		if request.form:
 			received_duration = request.form['set_duration']
-			# TODO: проверка типа
-			duration = float(received_duration)
+			try:
+				duration = float(received_duration)
+			except ValueError:
+				flash("Duration in seconds must be a number from 10 to 999.", "danger")
+				return redirect(request.url)
+			if 999 < duration or duration < 10:
+				flash("Duration in seconds must be a number from 10 to 999.", "danger")
+				return redirect(request.url)
+			
 		else:
-			raise NotImplementedError
+			flash("Duration in seconds must be a number from 10 to 999.", "danger")
+			return redirect(request.url)
 		
 		if request.files:
 			xlsfile = request.files["xlsfile"]
 			
 			if xlsfile.filename == "":
-				raise NotImplementedError
+				flash("Attach a file in a proper format (*.xls, *.xlsx, *.csv).", "danger")
+				return redirect(request.url)
 				
 			if self.allowed_ext(xlsfile.filename):
 				name = secure_filename(xlsfile.filename)
 				xlspath = os.path.join(app.config["XLS_UPLOADS"], name)
 				xlsfile.save(xlspath)
-				# filename = xlspath.split("\\")[-1]
-				process = SonificationCycle(xlspath, duration)
-				wav_path = os.path.join(app.config["WAV_FILES"], f"{name}.wav")
-				return redirect(f"get_wav/{name}.wav")
+				
+				try:
+					process = SonificationCycle(xlspath, duration)
+					process.perform_cycle()
+				except Exception as e:
+					flash(f"{str(e)}", "danger")
+					return redirect(request.url)
+				
+				wav_path = process.path_to_wav
+				wavname = os.path.split(wav_path)[1]
+				return redirect(f"get_wav/{wavname}")
 			else:
-				raise NotImplementedError
+				flash("Attach a file in a proper format (*.xls, *.xlsx, *.csv).", "danger")
+				return redirect(request.url)
 		else:
-			raise NotImplementedError
+			flash("Attach a file in a proper format (*.xls, *.xlsx, *.csv).", "danger")
+			return redirect(request.url)
 	
 		
 class ResultView(MethodView):

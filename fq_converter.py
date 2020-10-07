@@ -34,6 +34,9 @@ class FqConverter:
 				else:
 					continue
 		
+		if self.largest is None or self.smallest is None or self.largest == self.smallest:
+			raise ValueError("Must be at least two valid points in the array.")
+		
 		self.gap = self.largest - self.smallest
 		
 	def __convert(self, point):
