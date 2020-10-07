@@ -41,19 +41,19 @@ class BasicView(MethodView):
 			return redirect(request.url)
 		
 		if request.files:
-			xlsfile = request.files["xlsfile"]
+			srcfile = request.files["srcfile"]
 			
-			if xlsfile.filename == "":
+			if srcfile.filename == "":
 				flash("Attach a file in a proper format (*.xls, *.xlsx, *.csv).", "danger")
 				return redirect(request.url)
 				
-			if self.allowed_ext(xlsfile.filename):
-				name = secure_filename(xlsfile.filename)
-				xlspath = os.path.join(app.config["XLS_UPLOADS"], name)
-				xlsfile.save(xlspath)
+			if self.allowed_ext(srcfile.filename):
+				name = secure_filename(srcfile.filename)
+				srcpath = os.path.join(app.config["SRC_UPLOADS"], name)
+				srcfile.save(srcpath)
 				
 				try:
-					process = SonificationCycle(xlspath, duration)
+					process = SonificationCycle(srcpath, duration)
 					process.perform_cycle()
 				except Exception as e:
 					flash(f"{str(e)}", "danger")

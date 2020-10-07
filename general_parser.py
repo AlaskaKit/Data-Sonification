@@ -68,15 +68,12 @@ class CSVParser(AParser):
 		self.lines = 0
 	
 	def __get_delimiter(self):
-		try:
-			with open(self.csvpath, 'r', newline='') as file:
-				sniffer = csv.Sniffer()
-				dialect = sniffer.sniff(file.read())
-				dlmtr = dialect.delimiter
-				return dlmtr
-		except Exception:
-			raise Exception("Unable to locate the file or invalid file format.")
-	
+		with open(self.csvpath, 'r', newline='') as file:
+			sniffer = csv.Sniffer()
+			dialect = sniffer.sniff(file.read())
+			dlmtr = dialect.delimiter
+			return dlmtr
+		
 	@staticmethod
 	def __float_checker(float_string):
 		"""It takes a float string ("1,23" or "1,234.567.890") and
@@ -97,7 +94,11 @@ class CSVParser(AParser):
 			raise ValueError("Invalid data format in the file.")
 	
 	def parse(self):
-		dlmtr = self.__get_delimiter()
+		try:
+			dlmtr = self.__get_delimiter()
+		except Exception:
+			raise Exception("Unable to locate the file or invalid file format.")
+		
 		with open(self.csvpath, 'r', newline='') as file:
 			reader = csv.reader(file, delimiter=dlmtr)
 			
