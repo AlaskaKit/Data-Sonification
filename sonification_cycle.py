@@ -10,6 +10,8 @@ class SonificationCycle:
 		
 		if duration < 10:
 			duration = 10
+		elif duration > 999:
+			duration = 999
 		else:
 			duration = duration
 		self.prepack = Prepack(sourcepath, duration)
