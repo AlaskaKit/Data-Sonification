@@ -32,31 +32,38 @@ class ExcelParser(AParser):
 		if self.inputWorksheet.nrows == 0:
 			raise ValueError("Unable to detect any data in the file.")
 		
-		self.values = np.full((self.inputWorksheet.nrows, 3), None)
+		if self.inputWorksheet.nrows > 300:
+			self.rows = 300
+		else:
+			self.rows = self.inputWorksheet.nrows
+			
+		self.values = np.full((self.rows, 3), None)
 	
 	def parse(self):
 		for x in range(self.inputWorksheet.ncols):
-			if x >= 3:
+			if x > 2:
 				break
 			else:
-				for y in range(self.inputWorksheet.nrows):
-					if y >= 300:
-						break
+				for y in range(self.rows):
+					if not self.inputWorksheet.cell_value(y, x):
+						self.values[y][x] = None
+					elif isinstance(self.inputWorksheet.cell_value(y, x), (float, int)):
+						self.values[y][x] = self.inputWorksheet.cell_value(y, x)
 					else:
-						
-						if not self.inputWorksheet.cell_value(y, x):
-							self.values[y][x] = None
-						elif isinstance(self.inputWorksheet.cell_value(y, x), (float, int)):
-							self.values[y][x] = self.inputWorksheet.cell_value(y, x)
-						else:
-							raise ValueError("Invalid data format in the file.")
+						raise ValueError("Invalid data format in the file.")
 		return self.values
 	
 	def channels_num(self):
-		return self.inputWorksheet.ncols
+		if self.inputWorksheet.ncols > 2:
+			return 3
+		else:
+			return self.inputWorksheet.ncols
 	
 	def points_num(self):
-		return self.inputWorksheet.nrows
+		if self.inputWorksheet.nrows > 300:
+			return 300
+		else:
+			return self.inputWorksheet.nrows
 
 
 # Strategy 2

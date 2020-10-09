@@ -5,7 +5,6 @@ from config import *
 import os
 
 
-
 class TestGeneralParser(unittest.TestCase):
 	
 	# creating control arrays
@@ -15,7 +14,6 @@ class TestGeneralParser(unittest.TestCase):
 			 (2.0348, None, None), (4.431, None, None), (1.0158, None, None)])
 		self.array1_channels = 1
 		self.array1_points = 7
-		
 		
 		self.controlarray2 = np.array(
 			[(1.1059, 4.0321, None), (0.9864, 5.4658, None), (1.2384, -2.0358, None), (1.7864, -4.5874, None),
@@ -28,14 +26,14 @@ class TestGeneralParser(unittest.TestCase):
 			 (2.0348, 6.5841, 1.2546), (4.431, 2.6874, -3.5498), (1.0158, -3.5494, 2.5496)])
 		self.array3_channels = 3
 		self.array3_points = 7
-		
+	
 	# test scenario 1.5
 	def test_call(self):
 		# sc 1.5a
 		with self.assertRaises(TypeError):
 			t1_5a = GeneralParser(os.path.join(TestingConfig.SRC_UPLOADS, "scenario1.5a.jpg"))
 			t1_5a.parse()
-			
+		
 		# sc 1.5b
 		with self.assertRaises(TypeError):
 			t1_5b = GeneralParser(os.path.join(TestingConfig.SRC_UPLOADS, "scenario1_5b"))
@@ -104,17 +102,17 @@ class TestGeneralParser(unittest.TestCase):
 		with self.assertRaises(ValueError):
 			t1_3a = GeneralParser(os.path.join(TestingConfig.SRC_UPLOADS, "scenario1.3a.xlsx"))
 			t1_3a.parse()
-			
+		
 		# sc 1.3b
 		with self.assertRaises(ValueError):
 			t1_3b = GeneralParser(os.path.join(TestingConfig.SRC_UPLOADS, "scenario1.3b.csv"))
 			t1_3b.parse()
-			
+		
 		# sc 1.4a
 		with self.assertRaises(TypeError):
 			t1_4a = GeneralParser(os.path.join(TestingConfig.SRC_UPLOADS, "scenario1.4a.xlsx"))
 			t1_4a.parse()
-			
+		
 		# sc 1.4b
 		with self.assertRaises(TypeError):
 			t1_4b = GeneralParser(os.path.join(TestingConfig.SRC_UPLOADS, "scenario1.4b.csv"))
