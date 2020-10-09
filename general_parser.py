@@ -25,7 +25,7 @@ class ExcelParser(AParser):
 		try:
 			self.inputWorkbook = xlrd.open_workbook(xlsfile)
 		except Exception:
-			raise Exception("Unable to locate the file or invalid file format.")
+			raise TypeError("Unable to locate the file or invalid file format.")
 		
 		self.inputWorksheet = self.inputWorkbook.sheet_by_index(0)
 		
@@ -66,6 +66,7 @@ class CSVParser(AParser):
 		self.inputfile = []
 		self.output = None
 		self.lines = 0
+		self.rows = 0
 	
 	def __get_delimiter(self):
 		with open(self.csvpath, 'r', newline='') as file:
@@ -96,8 +97,9 @@ class CSVParser(AParser):
 	def parse(self):
 		try:
 			dlmtr = self.__get_delimiter()
+			
 		except Exception:
-			raise Exception("Unable to locate the file or invalid file format.")
+			raise TypeError("Unable to locate the file or invalid file format.")
 		
 		with open(self.csvpath, 'r', newline='') as file:
 			reader = csv.reader(file, delimiter=dlmtr)
@@ -113,7 +115,7 @@ class CSVParser(AParser):
 			
 		self.output = np.full((len(self.inputfile), 3), None)
 		for y in range(len(self.inputfile)):
-			for x in range(len(self.output[y])):
+			for x in range(len(self.inputfile[0])):
 				if self.inputfile[y][x] == "":
 					self.output[y][x] = None
 				else:
@@ -122,7 +124,10 @@ class CSVParser(AParser):
 		return self.output
 	
 	def channels_num(self):
-		return len(self.inputfile[0])
+		if self.inputfile[0][1] == "":
+			return 1
+		else:
+			return len(self.inputfile[0])
 	
 	def points_num(self):
 		return self.lines
