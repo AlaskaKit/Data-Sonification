@@ -74,6 +74,7 @@ class CSVParser(AParser):
 		self.output = None
 		self.lines = 0
 		self.rows = 0
+		self.ch = 0
 	
 	def __get_delimiter(self):
 		with open(self.csvpath, 'r', newline='') as file:
@@ -104,7 +105,7 @@ class CSVParser(AParser):
 	def parse(self):
 		try:
 			dlmtr = self.__get_delimiter()
-			
+					
 		except Exception:
 			raise TypeError("Unable to locate the file or invalid file format.")
 		
@@ -119,6 +120,10 @@ class CSVParser(AParser):
 				
 		if self.inputfile == [[]]:
 			raise ValueError("Unable to detect any data in the file.")
+		if dlmtr in {"\r", "\r\n", "\n"}:
+			self.ch = 1
+		else:
+			self.ch = len(self.inputfile[0])
 			
 		self.output = np.full((len(self.inputfile), 3), None)
 		for y in range(len(self.inputfile)):
@@ -131,10 +136,7 @@ class CSVParser(AParser):
 		return self.output
 	
 	def channels_num(self):
-		if self.inputfile[0][1] == "":
-			return 1
-		else:
-			return len(self.inputfile[0])
+		return self.ch
 	
 	def points_num(self):
 		return self.lines
