@@ -1,4 +1,9 @@
 class Config(object):
+	"""
+	General config class setting up the default  settings.
+	Insert manually the secret key.
+	Doesn't contain paths to the user's files.
+	"""
 	DEBUG = False
 	TESTING = False
 	SESSION_COOKIE_SECURE = True
@@ -7,11 +12,17 @@ class Config(object):
 
 
 class ProductionConfig(Config):
+	"""
+	Config for production mode.
+	"""
 	SRC_UPLOADS = r'set prod path'
 	WAV_FILES = r'set prod path'
 
 
 class DevelopmentConfig(Config):
+	"""
+	Config for development mode
+	"""
 	DEBUG = True
 	SRC_UPLOADS = r'set dev path'
 	WAV_FILES = r'set dev path'
@@ -19,6 +30,9 @@ class DevelopmentConfig(Config):
 
 
 class TestingConfig(Config):
+	"""
+	Config for test mode.
+	"""
 	DEBUG = True
 	SRC_UPLOADS = r'set test path'
 	WAV_FILES = r'set test path'

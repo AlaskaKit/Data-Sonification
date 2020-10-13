@@ -5,8 +5,16 @@ from pyo_module import PyoProcessing
 
 
 class SonificationCycle:
-	
+	"""
+	A general class for performing the sonification process.
+	"""
 	def __init__(self, sourcepath, duration=10):
+		"""
+		A constructor. Creats an instance of the Prepack class.
+		Checks and writes into the prepack duration value.
+		:param sourcepath: str: path to the user's file/
+		:param duration: float or int: value of the output sample duration in seconds.
+		"""
 		
 		if duration < 10:
 			duration = 10
@@ -19,6 +27,13 @@ class SonificationCycle:
 		self.path_to_wav = ""
 		
 	def perform_cycle(self):
+		"""
+		One-by-one calling the sonification components in the proper order, passing them a prepack instance
+		or just some of its properties.
+		:raises: an unspecified range of the errors in case of getting them from the components.
+		Raises them to the view object for flashing.
+		:return: a path to the sample recorded.
+		"""
 		# filetype-wise parsing via general parser
 		try:
 			parser = GeneralParser(self.prepack.sourcepath)

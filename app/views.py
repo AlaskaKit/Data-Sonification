@@ -8,7 +8,17 @@ from sonification_cycle import SonificationCycle
 
 
 class BasicView(MethodView):
-	
+	"""
+	Main view of the web app ("/" route).
+	On the GET request renders the index page.
+	On the POST request:
+		- checks if there is a correct duration value
+		- checks if there is a file in a proper format with a safe filename
+		- saves user's source file to the directory set up in the config
+		- gives the path to the source file to the SonificationCycle instance
+		- in case of success reads the path to the *.wav output file and redirects user to the get_wav route
+		- in case of any errors flashes the content of the error and redirects to index again.
+	"""
 	def allowed_ext(self, filename):
 		
 		if not "." in filename:
@@ -71,6 +81,10 @@ class BasicView(MethodView):
 	
 		
 class ResultView(MethodView):
+	"""
+	A get_wav view. Takes the path, offers the user to save the file (if there is any) or throws a 404
+	(if there is no such file on this path).
+	"""
 	def get(self, path):
 		
 		try:

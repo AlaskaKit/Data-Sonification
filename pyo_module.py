@@ -6,9 +6,17 @@ import os
 
 
 class PyoProcessing:
+	"""
+	Class for the sonification itself based on the Pyo library.
 	
+	"""
 	def __init__(self, prepack = Prepack):
-		
+		"""
+		Constructor.
+		Reads the properties of the prepack instance.
+		Splits the user's array into three tuples for the separate sonification.
+		:param prepack: a prepack instance with certain properties rewritten with user's data characteristics.
+		"""
 		if not isinstance(prepack, Prepack):
 			raise TypeError("Critical error: prepack instance invalid. Contact the developer.")
 		
@@ -28,6 +36,18 @@ class PyoProcessing:
 		self.path = ""
 		
 	def process(self):
+		"""
+		A processor.
+		Creates a pyo server, sets the record options.
+		Creates certain number of oscillators (based on channels number from the Prepack).
+			For each oscillators instances being created:
+			- SigTo controlling object
+			- Pattern object for changing the fq in the certain time intervals using pick_new_fq function.
+			- pick_new_fq function, containing the iterator from the frequency tuple.
+		Due to complex structure of each "channel" it is hard to collapse duplicate parts of the code into methods
+		or functions, so here we have a massive "if" block.
+		:return: a path to file recorded.
+		"""
 		s = Server(audio='offline').boot()
 		
 		# Path of the recorded sound file.
