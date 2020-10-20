@@ -1,15 +1,16 @@
 {% extends "public/base.html" %}
 
 {% block main %}
+
     <form method="post" action="/" enctype="multipart/form-data" accept-charset="">
-        <div class="form-container">
+        <div class="form-container" align="center">
         <input type="file" name="srcfile" accept=".xls, .xlsx, .csv">
         </div>
         <div class="form-container">
         <h3>Set the duration of the sample in seconds:</h3>
-        <input type="text" maxlength="3" name="set_duration">
+        <input type="text" maxlength="3" name="set_duration" style="margin-bottom: 0px">
         </div>
-        <div class="form-container">
+        <div class="form-container" align="center">
         <input type="submit" value="Submit">
         </div>
     </form>
@@ -19,12 +20,31 @@
         {% for category, message in messages %}
             <div class="alert-{{ category }} text-center ">
                 <span>{{ message }}</span>
-
-
-
             </div>
         {% endfor %}
     {% endif %}
     {% endwith %}
+
+
+    <div class="text-primary", align="center">
+     <h3>Data Sonification Project is a web service for converting data (specifically, time series, e.g. exchange rates
+     or daily temperature) into sound. Made for studying purposes.</h3></div>
+
+    <div class="text-center" style="margin-bottom: 20px">
+     Pick an excel (*.xls, *.xlsx), or *.csv file, set up sample duration (from 10 to 999 sec)
+     click "Submit" and wait until you will be offered to save an output *.wav file.</div>
+
+    <div class="text-dark", align="center" style="margin-bottom: 20px"><h3>
+     <p>Attention! This is a prototype. The process can take up to 10 min depending on sample duration.</p>
+     <p>Do not close the page or take other actions on the page until you are offered to save or open the file!</p></h3>
+    </div>
+
+    <div class="text-primary", align="center">
+     <h3>For detailed instructions and requirements for the input files and data formats visit </h3>
+    </div>
+
+    <div class="text-primary" align="center">
+     <h3><a href="https://github.com/AlaskaKit/Data-Sonification">github.com/AlaskaKit/Data-Sonification.</a></h3>
+    </div>
 
 {% endblock %}

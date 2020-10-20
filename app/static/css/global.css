@@ -3,7 +3,7 @@
 /* Global Styles */
 :root {
   --primary-color: #204f6e;
-  --dark-color: #333333;
+  --dark-color: #330506;
   --light-color: #f4f4f4;
   --danger-color: #dc3545;
   --success-color: #28a745;
@@ -72,6 +72,7 @@ img {
 
 .text-primary {
   color: var(--primary-color);
+  text-align: center;
 }
 
 .text-dark {
@@ -434,4 +435,22 @@ table th {
     text-align: center;
     justify-content: center;
   }
+}
+
+div.image-gallery {
+  display: block;
+  background-color: #cccccc;
+}
+
+div.image-gallery img {
+  display: block;
+  float: left;
+}
+
+.clear {
+  clear: both;
+  height: 0;
+  width: 0;
+  font-size: 1px;
+  line-height: 0;
 }
